@@ -31,6 +31,8 @@ const int PIST_1_STRED = 1; // pist 1 - cidlo ve stredu, napojene na preruseni 1
 const int AUTOMAT = 1; // prepinac automatiky
 const int LASER = 4; // Vstupni pin laserove zavory - dale se predpoklada, ze kdyz je zastineno, je tam LOW a kdyz neni zastineno, je tam HIGH. 
 const int ZMENASTAVUSTRIHU = 5; // zmena stavu strihu ? jakoze strihaci pist nekam dojel ? 
+const int OBNOVCINNOST = 13; // pin ktery udava, ze se to po preruseni ma zase rozpohybovat. 
+
 
 const int PIST_1_NAHORE = 6; // horni cidlo pistu 1
 //pist 1 stred je na preruseni, definovano vyse. 
@@ -60,11 +62,13 @@ void setup() {
    pinMode(AUTOMAT, INPUT);
    pinMode(LASER, INPUT);
    pinMode(ZMENASTAVUSTRIHU, INPUT);
+   pinMode(OBNOVCINNOST, INPUT);
    
    pinMode(PIST_1_NAHORE, INPUT);
    pinMode(PIST_1_DOLE, INPUT);
    pinMode(PIST_2_NAHORE, INPUT);
    pinMode(PIST_3_NAHORE, INPUT);
+   
    
    pinMode(MOTOR, OUTPUT);
    pinMode(PIST_1, OUTPUT);
@@ -180,6 +184,11 @@ void loop() {
      
       
    }
+   
+   if ( digitalRead(OBNOVCINNOST) == HIGH ) {
+	   dalsikolo = true;
+   }
+   
   } // endif pro dalsi kolo 
 }
 
