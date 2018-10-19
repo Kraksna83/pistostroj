@@ -51,6 +51,7 @@ const int PIST_3 = 13; // spinac pistu 3
 
 //tohle mozna neni potreba.... zalezi esli muzu cekat v preruseni nebo ne...
 volatile boolean jepistvestredu = false;
+volatile boolean dalsikolo = true; //pokud je tohle false, stroj dodela kolo a dalsi uz nepojede. 
 
 
 void setup() {
@@ -103,7 +104,7 @@ void setup() {
 
 
 void loop() {
-  
+  if ( dalsikolo == true ) {
    if (digitalRead(AUTOMAT) == HIGH) {  //prepinac automatu = Ano ergo bude automaticky rezim. 
    
      if (KOMENTATOR) { Serial.println("Posilam pist 2"); }
@@ -179,7 +180,7 @@ void loop() {
      
       
    }
-
+  } // endif pro dalsi kolo 
 }
 
 
@@ -192,7 +193,7 @@ void pistvpozici() {
 
 
 void vypnipisty_1_2() {
-  
+  dalsikolo = false;
   
   
   
