@@ -69,7 +69,7 @@ void setup() {
    pinMode(PIST_2, OUTPUT);
    pinMode(PIST_3, OUTPUT);
 
-   attachInterrupt(PIST_1_STRED, pistvpozici, RISING);
+   attachInterrupt(PIST_1_STRED, pistvpozici, FALLING);
    attachInterrupt(LASERPRERUSENI, vypnipisty_1_2, CHANGE);
 
 
@@ -83,7 +83,7 @@ void strihni() {
 
     //kontrola ze pist 3 je nahore.. 
     if (KOMENTATOR) { Serial.println("Ujistuju se ze mam pist 3 nahore"); }
-     while (!( digitalRead(PIST_3_NAHORE) == HIGH )){
+     while (!( digitalRead(PIST_3_NAHORE) == LOW )){
        delay(1);
      }
 
@@ -98,7 +98,7 @@ void strihni() {
 
      if (KOMENTATOR) { Serial.println("Konstanta docekana, p3 jede nahoru, ted cekam az tam dojede."); }
 
-     while (!( digitalRead(PIST_3_NAHORE) == HIGH )){
+     while (!( digitalRead(PIST_3_NAHORE) == LOW )){
        delay(1);
      }
 
@@ -121,19 +121,19 @@ void loop() {
      // kontrola esli sou pisty ve vychozi pozici :
      
      if (KOMENTATOR) { Serial.println("Cekam na pist 3 az bude nahore"); }
-     while (!(digitalRead(PIST_3_NAHORE) == HIGH)) {
+     while (!(digitalRead(PIST_3_NAHORE) == LOW)) {
        delay ( 1 );
      }
  
      if (KOMENTATOR) { Serial.println("Cekam na pist 2 az bude nahore"); }
-     while (!(digitalRead(PIST_2_NAHORE) == HIGH)) {
+     while (!(digitalRead(PIST_2_NAHORE) == LOW)) {
          delay ( 1 );
      }
      if (KOMENTATOR) { Serial.println("Pist 2 je nahore"); }
 
 
      if (KOMENTATOR) { Serial.println("Cekam na pist 1 az bude nahore"); }
-     while (!(digitalRead(PIST_1_NAHORE) == HIGH)) {
+     while (!(digitalRead(PIST_1_NAHORE) == LOW)) {
          delay ( 1 );
      }
      if (KOMENTATOR) { Serial.println("pist 1 je nahore"); }
@@ -164,7 +164,7 @@ void loop() {
      digitalWrite(PIST_2,LOW);
      if (KOMENTATOR) { Serial.println("Preruseno jest, vypnul jsem pist 2, ted du cekat na pist 1 az dosahne konce."); }
 
-     while (!( digitalRead(PIST_1_DOLE) == HIGH )){
+     while (!( digitalRead(PIST_1_DOLE) == LOW )){
        if (strihej) { strihni(); return 0; }  //pokud bylo preruseni laserem vseho nech a bez strihat. pak restartni loop()
        delay(1);
      }
@@ -172,7 +172,7 @@ void loop() {
      if (KOMENTATOR) { Serial.println("OK, je tam - byl vypnut. ted budu cekat az bude pist 1 nahore. "); }
 
 
-     while (!( digitalRead(PIST_1_NAHORE) == HIGH )){
+     while (!( digitalRead(PIST_1_NAHORE) == LOW )){
        if (strihej) { strihni(); return 0; }  //pokud bylo preruseni laserem vseho nech a bez strihat. pak restartni loop()
        delay(1);
      }
@@ -195,7 +195,7 @@ void pistvpozici() {
 
 
 void vypnipisty_1_2() {
-  if (digitalRead(2) == LOW) {
+  if (digitalRead(2) == HIGH) {
     strihej = true;
   }  else {
     strihej = false;
