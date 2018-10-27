@@ -173,6 +173,7 @@ void loop() {
 
 
       while (!(jepistvestredu)) {
+        if (zkontrolujlaser()) { strihni(); return 0; } 
         delay(1); //milisekunda delay, ale asi se to muze aj oddelat...
         
       }
