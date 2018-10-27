@@ -22,11 +22,11 @@ const int CEKANI_PIST_3 = 500; // cekani pistu 3 v neautomatickem rezimu
 //-------------------------------------------------
 
 
-const int LASERPRERUSENI = 0; // Laserova zavora preruseni 0 (pin 2)
+//const int LASERPRERUSENI = 0; // Laserova zavora preruseni 0 (pin 2)
 const int PIST_1_STRED = 1; // pist 1 - cidlo ve stredu, napojene na preruseni 1 (pin 3)
 
 
-
+const int LASER = 0;
 const int PIST_1_NAHORE = 6; // horni cidlo pistu 1
 //pist 1 stred je na preruseni, definovano vyse.
 const int PIST_1_DOLE = 7; // spodni cidlo pistu 1
@@ -52,7 +52,7 @@ volatile boolean zrovna_striham = false;
 void setup() {
     Serial.begin(57600);
 
-    pinMode(2, INPUT); // prerusovaci pin laser
+    pinMode(2, INPUT); // pin laser
     pinMode(3, INPUT); // prerusovaci pin pist 1 stred
 
     pinMode(PIST_1_NAHORE, INPUT);
@@ -67,7 +67,7 @@ void setup() {
     pinMode(PIST_3, OUTPUT);
 
     attachInterrupt(PIST_1_STRED, pistvpozici, FALLING);
-    attachInterrupt(LASERPRERUSENI, vypnipisty_1_2, CHANGE);
+    //attachInterrupt(LASERPRERUSENI, vypnipisty_1_2, CHANGE);
 
 
 }
@@ -114,8 +114,16 @@ void strihni() {
       zrovna_striham = false;
       strihej = false;
 
-  }
+}
 
+
+boolean zkontrolujlaser() {
+  if (digitalRead(LASER) == HIGH) {
+   return true;
+  } else {
+   return false;
+  }
+}
 
 void loop() {
 
@@ -148,7 +156,7 @@ void loop() {
       //delay(CEKANI_PIST_2);
 
       for (int i=0; i <= CEKANI_PIST_2; i++){
-        if (strihej) { strihni(); return 0; }  //pokud bylo preruseni laserem vseho nech a bez strihat. pak restartni loop()
+        if (zkontrolujlaser()) { strihni(); return 0; }  //pokud bylo preruseni laserem vseho nech a bez strihat. pak restartni loop()
         delay(1);
       }
 
@@ -159,14 +167,14 @@ void loop() {
 
       while (!(jepistvestredu)) {
         delay(1); //milisekunda delay, ale asi se to muze aj oddelat...
-        if (strihej) { strihni(); return 0; }  //pokud bylo preruseni laserem vseho nech a bez strihat. pak restartni loop()
+        
       }
 
       digitalWrite(PIST_2,LOW);
       if (KOMENTATOR) { Serial.println("Preruseno jest, vypnul jsem pist 2, ted du cekat na pist 1 az dosahne konce."); }
 
       while (!( digitalRead(PIST_1_DOLE) == LOW )){
-        if (strihej) { strihni(); return 0; }  //pokud bylo preruseni laserem vseho nech a bez strihat. pak restartni loop()
+        if (zkontrolujlaser()) { strihni(); return 0; }  //pokud bylo preruseni laserem vseho nech a bez strihat. pak restartni loop()
         delay(1);
       }
       digitalWrite(PIST_1, LOW);
@@ -174,7 +182,7 @@ void loop() {
 
 
       while (!( digitalRead(PIST_1_NAHORE) == LOW )){
-        if (strihej) { strihni(); return 0; }  //pokud bylo preruseni laserem vseho nech a bez strihat. pak restartni loop()
+        if (zkontrolujlaser()) { strihni(); return 0; }  //pokud bylo preruseni laserem vseho nech a bez strihat. pak restartni loop()
         delay(1);
       }
 
@@ -196,7 +204,7 @@ void pistvpozici() {
 
 
 void vypnipisty_1_2() {
-  if (!(zrovna_Striham)) {
+  if (!(zrovna_striham)) {
    if (digitalRead(2) == HIGH) {
      strihej = true;
    }  else {
