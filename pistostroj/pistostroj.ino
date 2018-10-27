@@ -132,7 +132,7 @@ void loop() {
      if ( digitalRead(LASER) == LOW ) {
         Serial.println("LASER LOW");
       } else {
-        Serial.println("LASER LOW");
+        Serial.println("LASER HIGH");
       }
 
 
