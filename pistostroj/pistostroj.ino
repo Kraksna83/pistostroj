@@ -104,12 +104,12 @@ void strihni() {
 
       if (KOMENTATOR) { Serial.println("Pist dojel. zapl jsem motor."); }
 
-      while ( strihej == false ){
+      while ( zkontrolujlaser() == false ){
         delay(1);
       }
 
       digitalWrite(MOTOR, LOW);
-      if (KOMENTATOR) { Serial.println("Laser je spojen, vypl jsem motor, ted resetnu strihaci indikatory"); }
+      if (KOMENTATOR) { Serial.println("Laser je odpojen, vypl jsem motor, ted resetnu strihaci indikatory"); }
       
       zrovna_striham = false;
       strihej = false;
@@ -118,10 +118,10 @@ void strihni() {
 
 
 boolean zkontrolujlaser() {
-  if (digitalRead(LASER) == HIGH) {
-   return true;
-  } else {
+  if (digitalRead(LASER) == HIGH) { //pokud je tam matros, vrati true, jinak false. 
    return false;
+  } else {
+   return true;
   }
 }
 
