@@ -120,9 +120,9 @@ void strihni() {
 
 boolean zkontrolujlaser() {
   if (digitalRead(LASER) == HIGH) { //pokud je tam matros, vrati true, jinak false. 
-   return false;
-  } else {
    return true;
+  } else {
+   return false;
   }
 }
 
