@@ -26,12 +26,13 @@ const int CEKANI_PIST_3 = 500; // cekani pistu 3 v neautomatickem rezimu
 const int PIST_1_STRED = 1; // pist 1 - cidlo ve stredu, napojene na preruseni 1 (pin 3)
 
 
-const int LASER = 0;
+const int LASER = 2;
+
 const int PIST_1_NAHORE = 6; // horni cidlo pistu 1
 //pist 1 stred je na preruseni, definovano vyse.
 const int PIST_1_DOLE = 7; // spodni cidlo pistu 1
-const int PIST_2_NAHORE = 8; // horni cidlo pistu 2
-const int PIST_3_NAHORE = 9; // horni cidlo pistu 3
+const int PIST_2_NAHORE = 4; // horni cidlo pistu 2
+const int PIST_3_NAHORE = 5; // horni cidlo pistu 3
 
 //-------------------------------------------------
 // Definice vystupnich pinu
@@ -128,6 +129,12 @@ boolean zkontrolujlaser() {
 void loop() {
 
       // kontrola esli sou pisty ve vychozi pozici :
+     if ( digitalRead(LASER) == LOW ) {
+        Serial.println("LASER LOW");
+      } else {
+        Serial.println("LASER LOW");
+      }
+
 
       if (KOMENTATOR) { Serial.println("Cekam na pist 3 az bude nahore"); }
       while (!(digitalRead(PIST_3_NAHORE) == LOW)) {
