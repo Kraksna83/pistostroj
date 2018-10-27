@@ -1,10 +1,38 @@
 /*
-
 Pistostroj ktery neco dela.
-
 nejnovejsi na https://github.com/Kraksna83/pistostroj/
-
 */
+
+//debug rezim ktery bude psat do seriaku co se deje :
+
+const boolean KOMENTATOR = true;
+
+
+//-------------------------------------------------
+// Definice vyckavacich konstant
+//-------------------------------------------------
+
+
+const int CEKANI_PIST_1_2 = 500; //cekani po vypnuti pistu 1 a 2 v neautomatickem rezimu
+const int CEKANI_PIST_2 = 500; //cekani pistu 2 v automatickem rezimu
+const int CEKANI_PIST_3 = 500; // cekani pistu 3 v neautomatickem rezimu
+
+//-------------------------------------------------
+// Definice vstupnich pinu
+//-------------------------------------------------
+
+
+const int LASERPRERUSENI = 0; // Laserova zavora preruseni 0 (pin 2)
+const int PIST_1_STRED = 1; // pist 1 - cidlo ve stredu, napojene na preruseni 1 (pin 3)
+
+
+
+const int PIST_1_NAHORE = 6; // horni cidlo pistu 1
+//pist 1 stred je na preruseni, definovano vyse.
+const int PIST_1_DOLE = 7; // spodni cidlo pistu 1
+const int PIST_2_NAHORE = 8; // horni cidlo pistu 2
+const int PIST_3_NAHORE = 9; // horni cidlo pistu 3
+
 //-------------------------------------------------
 // Definice vystupnich pinu
 //-------------------------------------------------
