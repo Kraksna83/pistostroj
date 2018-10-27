@@ -105,7 +105,7 @@ void strihni() {
 
       if (KOMENTATOR) { Serial.println("Pist dojel. zapl jsem motor."); }
 
-      while ( zkontrolujlaser() == false ){
+      while ( (digitalRead(LASER) == HIGH) ){
         delay(1);
       }
 
