@@ -127,7 +127,8 @@ boolean zkontrolujlaser() {
 }
 
 void loop() {
-
+      //pist 1 mi zase projel stredem, coz by melo spustit preruseni. tady si to vynuluju aby to na zacatku cyklu nebylo blbe
+      jepistvestredu = false;
       // kontrola esli sou pisty ve vychozi pozici :
      if ( digitalRead(LASER) == LOW ) {
         Serial.println("LASER LOW");
@@ -196,8 +197,7 @@ void loop() {
 
       if (KOMENTATOR) { Serial.println("pist 1 nahore, cyklus konci. "); }
 
-      //pist 1 mi zase projel stredem, coz by melo spustit preruseni. tady si to vynuluju aby to na zacatku cyklu nebylo blbe
-      jepistvestredu = false;
+
 
 
 }
