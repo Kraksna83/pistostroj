@@ -16,6 +16,7 @@ const boolean KOMENTATOR = true;
 const int CEKANI_PIST_1_2 = 500; //cekani po vypnuti pistu 1 a 2 v neautomatickem rezimu
 const int CEKANI_PIST_2 = 500; //cekani pistu 2 v automatickem rezimu
 const int CEKANI_PIST_3 = 500; // cekani pistu 3 v neautomatickem rezimu
+const int MINIMALNI_MOTOR = 1000; // minimalni doba jizdy motoru po strihu. 
 
 //-------------------------------------------------
 // Definice vstupnich pinu
@@ -104,6 +105,8 @@ void strihni() {
       digitalWrite(MOTOR, HIGH);
 
       if (KOMENTATOR) { Serial.println("Pist dojel. zapl jsem motor."); }
+    
+      delay(MINIMALNI_MOTOR);
 
       while ( (digitalRead(LASER) == HIGH) ){
         delay(1);
