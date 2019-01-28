@@ -16,7 +16,11 @@ const boolean KOMENTATOR = true;
 const int CEKANI_PIST_1_2 = 500; //cekani po vypnuti pistu 1 a 2 v neautomatickem rezimu
 const int CEKANI_PIST_2 = 500; //cekani pistu 2 v automatickem rezimu
 const int CEKANI_PIST_3 = 500; // cekani pistu 3 v neautomatickem rezimu
+
 const int MINIMALNI_MOTOR = 1000; // minimalni doba jizdy motoru po strihu. 
+const int MINIMALNI_PROSTOJ = 500; //minimalni doba mezi jednotlivyma strihama
+const int DOBA_SEPNUTI_STRIHACICH_PINU = 10; // doba sepnuti strihu. 
+const int DOBA_STRIHU = 30; // doba jakou pist jede dolu - podle ni se spusti motor. 
 
 //-------------------------------------------------
 // Definice vstupnich pinu
@@ -45,10 +49,16 @@ const int PIST_1 = 10; // spinac pistu 1
 const int PIST_2 = 11; // spinac pistu 2
 const int PIST_3 = 8; // spinac pistu 3
 
+const int STRIH_1 = 12; // Prvni strihaci pin.
+const int STRIH_2 = 13; // Druhy strihaci pin. 
+
 //tohle mozna neni potreba.... zalezi esli muzu cekat v preruseni nebo ne...
 volatile boolean jepistvestredu = false;
 volatile boolean strihej = false; //pokud je tohle false, stroj dodela kolo a dalsi uz nepojede.
 volatile boolean zrovna_striham = false;
+
+boolean prvni_narade = true; 
+long posledni_strih = 0; 
 
 
 void setup() {
@@ -67,7 +77,9 @@ void setup() {
     pinMode(PIST_1, OUTPUT);
     pinMode(PIST_2, OUTPUT);
     pinMode(PIST_3, OUTPUT);
-
+    pinMode(STRIH_1, OUTPUT);
+    pinMode(STRIH_2, OUTPUT);
+    
     attachInterrupt(PIST_1_STRED, pistvpozici, FALLING);
     //attachInterrupt(LASERPRERUSENI, vypnipisty_1_2, CHANGE);
 
@@ -77,9 +89,16 @@ void setup() {
 void strihni() {
      //vypni pisty 1 a 2
      zrovna_striham = true;
+     
+/*  *********** PUVODNI VERZE STRIHU S PROSTYM OVLADANIM PISTU KONSTANTOU
+ *   
+ *   
+ *   
      if (KOMENTATOR) { Serial.println("Zacina strihani. posilam pisty 1 a 2 do vychozi polohy."); }
      digitalWrite(PIST_1, LOW);
      digitalWrite(PIST_2, LOW);
+
+     
 
      //kontrola ze pist 3 je nahore..
      if (KOMENTATOR) { Serial.println("Ujistuju se ze mam pist 3 nahore"); }
@@ -101,10 +120,42 @@ void strihni() {
       while (!( digitalRead(PIST_3_NAHORE) == LOW )){
         delay(1);
       }
+*/
+
+      //kontrola zdali od minuleho strihu uz uplynulo dost casu... 
+
+      if ((millis() - posledni_strih) < MINIMALNI_PROSTOJ){
+        if (KOMENTATOR) { Serial.println("Jeste neuplynula minimalni doba od minuleho strihu. Koncim."); }
+        return ; 
+      }
+
+
+      // Toto provede sepnuti pinu na danou konstantu definovanou nahore. 
+      
+      if (prvni_narade) {
+        digitalWrite(STRIH_1, HIGH);
+        delay(DOBA_SEPNUTI_STRIHACICH_PINU);
+        digitalWrite(STRIH_1, LOW);
+        if (KOMENTATOR) { Serial.println("Cvaknul jsem pinem 1 na danou dobu."); }
+      }else {
+        digitalWrite(STRIH_2, HIGH);
+        delay(DOBA_SEPNUTI_STRIHACICH_PINU);
+        digitalWrite(STRIH_2, LOW);
+        if (KOMENTATOR) { Serial.println("Cvaknul jsem pinem 2 na danou dobu."); } 
+      }
+      
+      prvni_narade = !prvni_narade; //aby priste strihal jiny pist. 
+      posledni_strih = millis(); //ulozi si kdy naposledy strihal. 
+
+      //Cekani na dojeti strihaciho pistu dolu : 
+
+      delay(DOBA_STRIHU);
+
+      //zapnuti motoru. 
 
       digitalWrite(MOTOR, HIGH);
 
-      if (KOMENTATOR) { Serial.println("Pist dojel. zapl jsem motor."); }
+      if (KOMENTATOR) { Serial.println("Strih dokoncen. zapl jsem motor."); }
     
       delay(MINIMALNI_MOTOR);
 
@@ -139,12 +190,14 @@ void loop() {
         Serial.println("LASER HIGH");
       }
 
-
+/*
+ *   TADY SE PUVODNE STAVEL STRIHACI PIST DO HORNI POLOHY, ALE S NOVYM SYSTEMEM JE TO ASI K NICEMU. 
+ * 
       if (KOMENTATOR) { Serial.println("Cekam na pist 3 az bude nahore"); }
       while (!(digitalRead(PIST_3_NAHORE) == LOW)) {
         delay ( 1 );
       }
-
+*/
       if (KOMENTATOR) { Serial.println("Cekam na pist 2 az bude nahore"); }
       while (!(digitalRead(PIST_2_NAHORE) == LOW)) {
           delay ( 1 );
