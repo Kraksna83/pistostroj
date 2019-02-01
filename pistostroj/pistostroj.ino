@@ -31,26 +31,26 @@ const int DOBA_STRIHU = 30; // doba jakou pist jede dolu - podle ni se spusti mo
 const int PIST_1_STRED = 1; // pist 1 - cidlo ve stredu, napojene na preruseni 1 (pin 3)
 
 
-const int LASER = 2;
+const int LASER = 3; 
 
-const int PIST_1_NAHORE = 6; // horni cidlo pistu 1
+const int PIST_1_NAHORE = 9; // horni cidlo pistu 1 //zmeneno z 6 - PREDPOKLADAM ZE "NAHORE" ZNAMENA "ZACATEK", pokud ne, je potreba prehodit. 
 //pist 1 stred je na preruseni, definovano vyse.
-const int PIST_1_DOLE = 7; // spodni cidlo pistu 1
-const int PIST_2_NAHORE = 4; // horni cidlo pistu 2
-const int PIST_3_NAHORE = 5; // horni cidlo pistu 3
+const int PIST_1_DOLE = 10; // spodni cidlo pistu 1 //zmeneno z 7 - PREDPOKLADAM ZE "DOLE" ZNAMENA "KONEC"
+const int PIST_2_NAHORE = 8; // horni cidlo pistu 2 
+const int PIST_3_NAHORE = 11; // horni cidlo pistu 3 
 
 //-------------------------------------------------
 // Definice vystupnich pinu
 //-------------------------------------------------
 
 
-const int MOTOR = 9; // spinac motoru
-const int PIST_1 = 10; // spinac pistu 1
-const int PIST_2 = 11; // spinac pistu 2
+const int MOTOR = 5; // spinac motoru
+const int PIST_1 = 13; // spinac pistu 1
+const int PIST_2 = 4; // spinac pistu 2
 const int PIST_3 = 8; // spinac pistu 3
 
-const int STRIH_1 = 12; // Prvni strihaci pin.
-const int STRIH_2 = 13; // Druhy strihaci pin. 
+const int STRIH_1 = 7; // Prvni strihaci pin.
+const int STRIH_2 = 8; // Druhy strihaci pin. 
 
 //tohle mozna neni potreba.... zalezi esli muzu cekat v preruseni nebo ne...
 volatile boolean jepistvestredu = false;
