@@ -1,5 +1,5 @@
 /*
-Pistostroj ktery neco dela.
+Rozcvicka - Program ktery zjistuje zdali pisty a cidla sedi na piny a jestli funguji
 nejnovejsi na https://github.com/Kraksna83/pistostroj/
 */
 
