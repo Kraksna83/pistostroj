@@ -14,8 +14,8 @@ const int CEKANI_PIST_1_2 = 500; //cekani po vypnuti pistu 1 a 2 v neautomaticke
 const int CEKANI_PIST_2 = 500; //cekani pistu 2 v automatickem rezimu
 const int CEKANI_PIST_3 = 500; // cekani pistu 3 v neautomatickem rezimu
 
-const int MINIMALNI_MOTOR = 50; // minimalni doba jizdy motoru po strihu.
-const int MINIMALNI_PROSTOJ = 200; //minimalni doba mezi jednotlivyma strihama
+const int MINIMALNI_MOTOR = 40; // minimalni doba jizdy motoru po strihu.
+const int MINIMALNI_PROSTOJ = 80; //minimalni doba mezi jednotlivyma strihama
 const int DOBA_SEPNUTI_STRIHACICH_PINU = 10; // doba sepnuti strihu.
 const int DOBA_STRIHU = 50; // doba jakou pist jede dolu - podle ni se spusti motor.
 
